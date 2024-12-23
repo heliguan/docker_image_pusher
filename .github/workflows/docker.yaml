@@ -59,30 +59,34 @@ jobs:
         docker login -u $EBEST_REGISTRY_USER -p $EBEST_REGISTRY_PASSWORD $EBEST_REGISTRY
         while IFS= read -r line; do
         
-          # 去除行首和行尾的空白字符
-          trimmed_line="${line//[$' \t\n\r']/}"
-      
-          # 如果行为空或仅包含空白字符，则跳过
-          if [[ -z "$trimmed_line" ]]; then
+          # 忽略空行与注释
+          [[ -z "$line" ]] && continue
+          if echo "$line" | grep -q '^\s*#'; then
             continue
           fi
 
           echo "准备下载镜像$line"
-          # docker pull $line
+          
           # 使用参数扩展直接截取命名空间和镜像名加标签
-          NAMESPACE=${line%%/*}
-          echo ${line%%/*}
-          IMAGE_WITH_TAG=${line#*/}
+          name_space=${line%%/*}
+          image_name_tag=${line#*/}
           
-          # 如果 IMAGE_WITH_TAG 和 NAMESPACE 相同，说明没有 '/'
-          if [[ "$IMAGE_WITH_TAG" == "$NAMESPACE" ]]; then
-            IMAGE_WITH_TAG="$line"
-            NAMESPACE=""
+          # 如果 name_space 和 image_name_tag 相同，说明没有 '/'
+          if [[ "$image_name_tag" == "$name_space" ]]; then
+            image_name_tag="$line"
+            name_space=""
           fi
-          
-          # 输出结果
-          echo "Namespace (Repository): $NAMESPACE"
-          echo "Image with Tag: $IMAGE_WITH_TAG"
+
+          docker pull $line
+
+          new_image="$EBEST_REGISTRY/dockerhub/$name_space/$image_name_tag"
+          echo "docker tag $line $new_image"
+          docker tag $line $new_image
+          echo "docker push $new_image"
+          docker push $new_image
+
+          docker rmi $line
+          docker rmi $new_image
 
           
         done < images.txt
