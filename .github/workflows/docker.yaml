@@ -67,6 +67,7 @@ jobs:
           # docker pull $line
           # 使用参数扩展直接截取命名空间和镜像名加标签
           NAMESPACE=${line%%/*}
+          echo ${line%%/*}
           IMAGE_WITH_TAG=${line#*/}
           
           # 如果 IMAGE_WITH_TAG 和 NAMESPACE 相同，说明没有 '/'
