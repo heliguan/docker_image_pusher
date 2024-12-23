@@ -59,9 +59,12 @@ jobs:
         docker login -u $EBEST_REGISTRY_USER -p $EBEST_REGISTRY_PASSWORD $EBEST_REGISTRY
         while IFS= read -r line; do
         
-          # 忽略空白行和仅包含空白字符的行
-          if [[ -n "${line//[$' \t\n\r']/}" ]]; then
-            continue   
+          # 去除行首和行尾的空白字符
+          trimmed_line="${line//[$' \t\n\r']/}"
+      
+          # 如果行为空或仅包含空白字符，则跳过
+          if [[ -z "$trimmed_line" ]]; then
+            continue
           fi
 
           echo "准备下载镜像$line"
