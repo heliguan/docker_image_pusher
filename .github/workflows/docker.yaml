@@ -7,10 +7,9 @@ on:
 
 
 env:
-  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
-  ALIYUN_NAME_SPACE: "${{ secrets.ALIYUN_NAME_SPACE }}"
-  ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
-  ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
+  EBEST_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
+  EBEST_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
+  EBEST_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
 
 jobs:
 
@@ -55,7 +54,13 @@ jobs:
     - name: Docker Setup Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Build and push image Aliyun
+    - name: 推送镜像到eBest镜像仓库
       run: |
-        docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
-        bash images.txt
+        docker login -u $EBEST_REGISTRY_USER -p $EBEST_REGISTRY_PASSWORD $EBEST_REGISTRY
+        while IFS= read -r line; do
+          # 忽略空白行和仅包含空白字符的行
+          if [[ -n "${line//[$' \t\n\r']/}" ]]; then
+            docker pull $line
+            
+          fi
+        done < a.txt
