@@ -63,4 +63,4 @@ jobs:
             docker pull $line
             
           fi
-        done < a.txt
+        done < images.txt
