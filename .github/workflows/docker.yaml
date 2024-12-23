@@ -41,13 +41,6 @@ jobs:
     - name: Restart docker
       run: sudo service docker restart
 
-    - name: Free up disk space complete
-      run: |
-        echo "Free up disk space complete"
-        echo "=============================================================================="
-        df -hT
-        echo "=============================================================================="
-
     - name: Checkout Code
       uses: actions/checkout@v4
 
@@ -75,11 +68,18 @@ jobs:
           if [[ "$image_name_tag" == "$name_space" ]]; then
             image_name_tag="$line"
             name_space=""
+          else
+            # 如果有斜杠，则在命名空间后添加斜杠
+            if [[ "$name_space" != "$line" ]]; then
+              name_space+="/"
+            fi
           fi
 
-          docker pull $line
+          # 将要推送的镜像路径
+          new_image="$EBEST_REGISTRY/dockerhub/$name_space$image_name_tag"
 
-          new_image="$EBEST_REGISTRY/dockerhub/$name_space/$image_name_tag"
+          echo "docker pull $line"
+          docker pull $line
           echo "docker tag $line $new_image"
           docker tag $line $new_image
           echo "docker push $new_image"
