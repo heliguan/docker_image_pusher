@@ -64,6 +64,7 @@ jobs:
             continue   
           fi
 
+          echo "准备下载镜像$line"
           # docker pull $line
           # 使用参数扩展直接截取命名空间和镜像名加标签
           NAMESPACE=${line%%/*}
