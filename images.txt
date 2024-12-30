@@ -1,1 +1,2 @@
-openjdk
+nginx:mainline-perl
+nginx:latest
