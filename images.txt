@@ -1,2 +1,1 @@
-nginx:mainline-perl
-nginx:latest
+nginx:mainline-alpine
