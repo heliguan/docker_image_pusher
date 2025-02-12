@@ -1,3 +1,2 @@
-ghcr.io/chroma-core/chroma:0.5.20
-langgenius/dify-api:0.15.3
 milvusdb/milvus:v2.5.0-beta
+langgenius/dify-api:0.15.3
