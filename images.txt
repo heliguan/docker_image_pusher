@@ -1,2 +1,1 @@
-eclipse-temurin:8-jdk
-hashicorp/consul:1.21
+portainer/portainer-ce
