@@ -1,1 +1,1 @@
-portainer/portainer-ce
+gitlab/gitlab-runner:latest
