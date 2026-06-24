@@ -1,1 +1,1 @@
-nacos/nacos-server:v2.4.3
+portainer/portainer-ce:2.39.3
