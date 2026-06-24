@@ -1,1 +1,1 @@
-gitlab/gitlab-runner:latest
+nacos/nacos-server:v2.4.3
