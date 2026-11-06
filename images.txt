@@ -1,1 +1,1 @@
-eclipse-temurin:8u492-b09-jdk
+eclipse-temurin:8-jdk
